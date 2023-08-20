@@ -22,7 +22,6 @@ export default function Home() {
     ref
   );
 
-  console.log(data);
   const methods = useForm({
     reValidateMode: "onChange",
     resolver: yupResolver(schema),
@@ -79,7 +78,7 @@ export default function Home() {
             priority
           />
         </div>
-        <p>{`Firebase ${data?.field}`}</p>s
+        <p>{`Firebase ${data?.field}`}</p>
         <div>
           <FormProvider {...methods}>
             <FormInput id="input" />
