@@ -1,4 +1,4 @@
-import MainScreen from "./";
+import MainScreen from "../pages";
 import "@testing-library/jest-dom";
 import { render, screen, act } from "../../config/test-utils";
 import userEvent from "@testing-library/user-event";
