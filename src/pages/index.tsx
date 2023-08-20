@@ -2,10 +2,41 @@ import Head from "next/head";
 import Image from "next/image";
 import { Inter } from "next/font/google";
 import styles from "../styles/Home.module.css";
+import { FormProvider, useForm } from "react-hook-form";
+import { useFirestoreDocumentData } from "@react-query-firebase/firestore";
+import { firestore } from "../api";
+import { doc } from "firebase/firestore";
+import FormInput from "../components/FormInput";
+import { schema } from "./schema";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Button, Text } from "@chakra-ui/react";
+import { useState } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const [hasResponse, setHasResponse] = useState(false);
+  const ref = doc(firestore, "collection", "document");
+  const { data }: { data?: { field: string } } = useFirestoreDocumentData(
+    ["products", "documents"],
+    ref
+  );
+
+  console.log(data);
+  const methods = useForm({
+    reValidateMode: "onChange",
+    resolver: yupResolver(schema),
+    defaultValues: {
+      input: "",
+    },
+  });
+
+  const sendMessage = (values: any) => {
+    if (values.input) {
+      setHasResponse(true);
+    }
+  };
+
   return (
     <>
       <Head>
@@ -38,7 +69,6 @@ export default function Home() {
             </a>
           </div>
         </div>
-
         <div className={styles.center}>
           <Image
             className={styles.logo}
@@ -49,7 +79,20 @@ export default function Home() {
             priority
           />
         </div>
-
+        <p>{`Firebase ${data?.field}`}</p>s
+        <div>
+          <FormProvider {...methods}>
+            <FormInput id="input" />
+            <Button
+              marginTop={12}
+              onClick={methods.handleSubmit(sendMessage)}
+              type="submit"
+            >
+              Submit
+            </Button>
+          </FormProvider>
+          {hasResponse && <Text mt={20}>Success</Text>}
+        </div>
         <div className={styles.grid}>
           <a
             href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
