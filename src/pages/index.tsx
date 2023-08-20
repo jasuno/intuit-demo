@@ -7,7 +7,7 @@ import { useFirestoreDocumentData } from "@react-query-firebase/firestore";
 import { firestore } from "../api";
 import { doc } from "firebase/firestore";
 import FormInput from "../components/FormInput";
-import { schema } from "./schema";
+import { schema } from "../../schema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, Text } from "@chakra-ui/react";
 import { useState } from "react";
