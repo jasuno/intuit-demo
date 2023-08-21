@@ -26,7 +26,7 @@ describe("Test screen", () => {
     await act(() => userEvent.type(input, "typing"));
 
     const submitButton = screen.getByRole("button", {
-      name: /submt/i,
+      name: /submit/i,
     });
 
     await act(() => userEvent.click(submitButton));
