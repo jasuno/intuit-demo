@@ -1,8 +1,9 @@
-import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { ChakraBaseProvider, extendBaseTheme } from "@chakra-ui/react";
 import { ReactQueryDevtools } from "react-query/devtools";
+import chakraTheme from "@chakra-ui/theme";
 
 export default function App({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(
@@ -15,10 +16,15 @@ export default function App({ Component, pageProps }: AppProps) {
         },
       })
   );
+
+  const theme = extendBaseTheme();
+
   return (
-    <QueryClientProvider client={queryClient}>
-      <Component {...pageProps} />
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
+    <ChakraBaseProvider theme={theme}>
+      <QueryClientProvider client={queryClient}>
+        <Component {...pageProps} />
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </ChakraBaseProvider>
   );
 }

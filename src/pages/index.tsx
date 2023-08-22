@@ -1,7 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
 import { Inter } from "next/font/google";
-import styles from "../styles/Home.module.css";
 import { FormProvider, useForm } from "react-hook-form";
 import { useFirestoreDocumentData } from "@react-query-firebase/firestore";
 import { firestore } from "../api";
@@ -10,17 +9,23 @@ import FormInput from "../components/FormInput";
 import { schema } from "../../schema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, Text } from "@chakra-ui/react";
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const router = useRouter();
   const [hasResponse, setHasResponse] = useState(false);
   const ref = doc(firestore, "collection", "document");
   const { data }: { data?: { field: string } } = useFirestoreDocumentData(
     ["products", "documents"],
     ref
   );
+
+  useEffect(() => {
+    router.push("/home");
+  }, []);
 
   const methods = useForm({
     reValidateMode: "onChange",
@@ -44,11 +49,11 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={`${styles.main} ${inter.className}`}>
-        <div className={styles.description}>
+      <main>
+        <div>
           <p>
             Get started by editing&nbsp;
-            <code className={styles.code}>src/pages/index.tsx</code>
+            <code>src/pages/index.tsx</code>
           </p>
           <div>
             <a
@@ -60,7 +65,6 @@ export default function Home() {
               <Image
                 src="/vercel.svg"
                 alt="Vercel Logo"
-                className={styles.vercelLogo}
                 width={100}
                 height={24}
                 priority
@@ -68,9 +72,8 @@ export default function Home() {
             </a>
           </div>
         </div>
-        <div className={styles.center}>
+        <div>
           <Image
-            className={styles.logo}
             src="/next.svg"
             alt="Next.js Logo"
             width={180}
@@ -92,10 +95,9 @@ export default function Home() {
           </FormProvider>
           {hasResponse && <Text mt={20}>Success</Text>}
         </div>
-        <div className={styles.grid}>
+        <div>
           <a
             href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -109,7 +111,6 @@ export default function Home() {
 
           <a
             href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -123,7 +124,6 @@ export default function Home() {
 
           <a
             href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -137,7 +137,6 @@ export default function Home() {
 
           <a
             href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
             target="_blank"
             rel="noopener noreferrer"
           >

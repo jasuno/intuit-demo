@@ -54,6 +54,8 @@ const FormInput = forwardRef(
               aria-label={id}
               id={id}
               data-peer
+              borderColor="gray.200"
+              borderWidth={1}
               min={0}
             />
 
