@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import axios from "axios";
 
 const firebase = initializeApp({
   apiKey: "AIzaSyCnhQqm7KR1T7ZGU8Z5pphyU7aQ-WNSrlQ",
@@ -12,3 +13,12 @@ const firebase = initializeApp({
 });
 
 export const firestore = getFirestore(firebase);
+
+export const instance = axios.create({
+  baseURL: `${process.env.SOME_BASE_URL}`,
+  withCredentials: false,
+  headers: {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+  },
+});
