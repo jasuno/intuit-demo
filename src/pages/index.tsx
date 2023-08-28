@@ -2,14 +2,14 @@ import Head from "next/head";
 import Image from "next/image";
 import { Inter } from "next/font/google";
 import { FormProvider, useForm } from "react-hook-form";
-import { useFirestoreDocumentData } from "@react-query-firebase/firestore";
-import { firestore } from "../api";
-import { doc } from "firebase/firestore";
+// import { useFirestoreDocumentData } from "@react-query-firebase/firestore";
+// import { firestore } from "../api";
+// import { doc } from "firebase/firestore";
 import FormInput from "../components/FormInput";
 import { schema } from "../../schema";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Button, Text } from "@chakra-ui/react";
-import { use, useEffect, useState } from "react";
+import { Box, Button, Center, HStack, Text } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -17,15 +17,15 @@ const inter = Inter({ subsets: ["latin"] });
 export default function Home() {
   const router = useRouter();
   const [hasResponse, setHasResponse] = useState(false);
-  const ref = doc(firestore, "collection", "document");
-  const { data }: { data?: { field: string } } = useFirestoreDocumentData(
-    ["products", "documents"],
-    ref
-  );
+  // const ref = doc(firestore, "collection", "document");
+  // const { data }: { data?: { field: string } } = useFirestoreDocumentData(
+  //   ["products", "documents"],
+  //   ref
+  // );
 
-  useEffect(() => {
-    router.push("/home");
-  }, []);
+  // useEffect(() => {
+  //   router.push("/home");
+  // }, []);
 
   const methods = useForm({
     reValidateMode: "onChange",
@@ -50,105 +50,31 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div>
-          <p>
-            Get started by editing&nbsp;
-            <code>src/pages/index.tsx</code>
-          </p>
-          <div>
-            <a
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              By{" "}
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                width={100}
-                height={24}
-                priority
-              />
-            </a>
-          </div>
-        </div>
-        <div>
-          <Image
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
-          />
-        </div>
-        <p>{`Firebase ${data?.field}`}</p>
-        <div>
+        <Center flexDir="column" h="100vh">
           <FormProvider {...methods}>
-            <FormInput id="input" />
-            <Button
-              marginTop={12}
-              onClick={methods.handleSubmit(sendMessage)}
-              type="submit"
-            >
-              Submit
-            </Button>
+            <Box display="flex" flexDir="row">
+              <Box display="flex" alignItems="center" justifyContent="center">
+                <Box>
+                  <Text mb="2">How are you feeling</Text>
+                  <FormInput id="input" />
+                </Box>
+              </Box>
+              <Button
+                ml={4}
+                bg="blue.500"
+                color="white"
+                padding={1}
+                rounded="md"
+                onClick={methods.handleSubmit(sendMessage)}
+                type="submit"
+              >
+                Submit
+              </Button>
+            </Box>
           </FormProvider>
+
           {hasResponse && <Text mt={20}>Success</Text>}
-        </div>
-        <div>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Docs <span>-&gt;</span>
-            </h2>
-            <p>
-              Find in-depth information about Next.js features and&nbsp;API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Learn <span>-&gt;</span>
-            </h2>
-            <p>
-              Learn about Next.js in an interactive course with&nbsp;quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Templates <span>-&gt;</span>
-            </h2>
-            <p>
-              Discover and deploy boilerplate example Next.js&nbsp;projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Deploy <span>-&gt;</span>
-            </h2>
-            <p>
-              Instantly deploy your Next.js site to a shareable URL
-              with&nbsp;Vercel.
-            </p>
-          </a>
-        </div>
+        </Center>
       </main>
     </>
   );
