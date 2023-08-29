@@ -1,23 +1,40 @@
-import { ReactNode } from "react";
-import { Box, BoxProps } from "@chakra-ui/react";
+import { colors } from "config/constants";
+import { ReactElement } from "react";
+import { motion } from "framer-motion";
 
-type CardProps = {
-  children: ReactNode;
+type CardComponent = {
+  imageSrc: string;
+  isSelected: boolean;
 };
 
-const Card = ({ children, ...rest }: CardProps & BoxProps) => (
-  <Box
-    as="section"
-    color="gray.600"
-    bg="bg-surface"
-    borderRadius="lg"
-    p={{ base: "4", md: "6" }}
-    border="1px"
-    borderColor="gray.200"
-    {...rest}
-  >
-    {children}
-  </Box>
-);
+const CardComponent = ({
+  imageSrc,
+  isSelected,
+}: CardComponent): ReactElement => {
+  const variants = {
+    selected: { scale: 1.1 },
+    default: { scale: 0.9 },
+  };
 
-export default Card;
+  return (
+    <motion.div
+      animate={isSelected ? "selected" : "default"}
+      variants={variants}
+      style={{
+        width: "150px",
+        height: "150px",
+        borderRadius: "10px",
+        border: isSelected ? `2px solid ${colors.peach}` : "none",
+        overflow: "clip",
+      }}
+    >
+      <img
+        style={{ objectFit: "cover", height: "150px" }}
+        src={imageSrc}
+        alt="image"
+      />
+    </motion.div>
+  );
+};
+
+export default CardComponent;

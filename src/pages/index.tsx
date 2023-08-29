@@ -1,45 +1,13 @@
 import Head from "next/head";
-import Image from "next/image";
-import { Inter } from "next/font/google";
-import { FormProvider, useForm } from "react-hook-form";
-// import { useFirestoreDocumentData } from "@react-query-firebase/firestore";
-// import { firestore } from "../api";
-// import { doc } from "firebase/firestore";
-import FormInput from "../components/FormInput";
-import { schema } from "../../schema";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { Box, Button, Center, HStack, Text } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-
-const inter = Inter({ subsets: ["latin"] });
+import Carousel from "components/Carousel";
+import { colors } from "config/constants";
 
 export default function Home() {
-  const router = useRouter();
-  const [hasResponse, setHasResponse] = useState(false);
-  // const ref = doc(firestore, "collection", "document");
-  // const { data }: { data?: { field: string } } = useFirestoreDocumentData(
-  //   ["products", "documents"],
-  //   ref
-  // );
-
-  // useEffect(() => {
-  //   router.push("/home");
-  // }, []);
-
-  const methods = useForm({
-    reValidateMode: "onChange",
-    resolver: yupResolver(schema),
-    defaultValues: {
-      input: "",
-    },
-  });
-
-  const sendMessage = (values: any) => {
-    if (values.input) {
-      setHasResponse(true);
-    }
-  };
+  const urls = [
+    "https://images.pexels.com/photos/269255/pexels-photo-269255.jpeg",
+    "https://images.pexels.com/photos/355235/pexels-photo-355235.jpeg",
+    "https://images.pexels.com/photos/416179/pexels-photo-416179.jpeg",
+  ];
 
   return (
     <>
@@ -49,32 +17,31 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
-        <Center flexDir="column" h="100vh">
-          <FormProvider {...methods}>
-            <Box display="flex" flexDir="row">
-              <Box display="flex" alignItems="center" justifyContent="center">
-                <Box>
-                  <Text mb="2">How are you feeling</Text>
-                  <FormInput id="input" />
-                </Box>
-              </Box>
-              <Button
-                ml={4}
-                bg="blue.500"
-                color="white"
-                padding={1}
-                rounded="md"
-                onClick={methods.handleSubmit(sendMessage)}
-                type="submit"
-              >
-                Submit
-              </Button>
-            </Box>
-          </FormProvider>
-
-          {hasResponse && <Text mt={20}>Success</Text>}
-        </Center>
+      <main
+        style={{
+          width: "100%",
+          height: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          background: colors.pink,
+        }}
+      >
+        <h1
+          style={{ fontSize: "40px", fontWeight: "bold", color: colors.peach }}
+        >
+          My Carousel
+        </h1>
+        <div
+          style={{
+            background: colors.purple,
+            padding: "100px",
+            borderRadius: "10px",
+          }}
+        >
+          <Carousel data={urls} />
+        </div>
       </main>
     </>
   );
